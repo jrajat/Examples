@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+#include <stdio.h>
+
+
+int search(int arr[],int val,int start, int end)
+{
+    int result=-1;
+    int mid=start+(end-start)/2;
+    if(arr[mid]==val)
+        result=mid;
+    else if(arr[mid]>val)
+        result=search(arr,val,start,mid);
+    else
+        result=search(arr,val,mid+1,end);
+    return result;
+}
+
+int main() {
+    int arr[]={2,3,4,5,9,15,25,35,100};
+    int val=100;
+    int num=sizeof(arr)/sizeof(arr[0]);
+    int index=search(arr,val,0,num-1);
+    printf("Index is %d ",index);
+	// your code goes here
+return 0;
+}
