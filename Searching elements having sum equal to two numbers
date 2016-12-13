@@ -26,34 +26,20 @@ void swap(int *a,int *b)
 int search(int arr[],int val,int start, int end)
 {
     int result=-1;
-    if(end%2!=0)
-    {
-        int x=(end+1)/2;
-        if(arr[x]==val)
-            result=x;
-        else if(arr[x]>val)
-            search(arr,val,0,x);
-        else
-            search(arr,val,x+1,end);
-    }
+    int mid=start+(end-start)/2;
+    if(arr[mid]==val)
+        result=mid;
+    else if(arr[mid]>val)
+        result=search(arr,val,start,mid);
     else
-    {
-        int x=end/2;
-        if(arr[x]==val)
-            result=x;
-        else if(arr[x]>val)
-            search(arr,val,0,x);
-        else
-            search(arr,val,x+1,end);
-    }
+        result=search(arr,val,mid+1,end);
     return result;
 }
 
 int main() {
     int arr[]={2,7,3,4,9};
-    int val=16;
+    int val=11;
     //first sort the array;
-    int first=0;
     int num=sizeof(arr)/sizeof(arr[0]);
     for(int i=0;i<num;i++)
     {
@@ -62,32 +48,17 @@ int main() {
     }
     int a=0;
     int b=0;
-    if(arr[num-1]>val)
+    for(int j=num-1;j>0;j--)
     {
-        
-      for(int i=0;i<num-1;i++)
+        int diff=val-arr[j];
+        if(diff>0)
         {
-            int diff=val-arr[i];
-            //check if diff present in arry or not
-            int x=search(arr,diff,first,num);
-            if(x>0)
+            int x=search(arr,diff,0,num-1);
+            if(x>0 && x!=j)
             {
-                a=x;
-                b=i;
-            }
-        }
-        
-    }
-    else
-    {
-        for(int i=num-1;i>0;i--)
-        {
-            int diff=val-arr[i];
-            int x=search(arr,diff,first,num);
-            if(x>0)
-            {
-                a=x;
-                b=i;
+                a=j;
+                b=x;
+                break;
             }
         }
     }
