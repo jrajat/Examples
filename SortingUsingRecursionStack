@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+
+struct Node* createNode(int value)
+{
+    struct Node* node=(struct Node*)malloc(sizeof(struct Node));
+    node->data=value;
+    node->next=NULL;
+    return node;
+}
+void Push(struct Node** temp, int data)
+{
+    struct Node* node1=createNode(data);
+    node1->next=*temp;
+    *temp=node1;
+    printf("%d value is pushed in stack\n",data);
+}
+void Print(struct Node* temp)
+{
+    while(temp!=NULL)
+    {
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }
+}
+int Sort(struct Node **node)
+{
+    struct Node *temp=NULL;
+    temp=*node;
+    int min;
+    while(temp->next!=NULL)
+    {
+        min=Pop(temp);
+        if(min>Pop(temp))
+            min=Pop(temp);
+    }
+    int value;
+    if(temp->next==NULL)
+    {
+        value=temp->data;
+        return temp;
+    }
+    
+    
+}
+int main() {
+	// your code goes here
+	struct Node* node=(struct Node*)malloc(sizeof(struct Node));
+	node=NULL;
+	Push(&node,30);
+	Push(&node,-5);
+	Push(&node,18);
+	Push(&node,14);
+	Push(&node,-3);
+	printf("Before Sorting\n");
+	//Before Sorting
+	Print(node);
+	printf("\n");
+	int count=Count(&node);
+	Sort(&node);
+	return 0;
+}
