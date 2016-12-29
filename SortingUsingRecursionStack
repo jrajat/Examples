@@ -2,68 +2,86 @@
 #include <stdlib.h>
 using namespace std;
 
-struct Node
+struct Stack
 {
-    int data;
-    struct Node *next;
+    int top;
+    int capacity;
+    int *arr;
 };
 
-struct Node* createNode(int value)
+struct Stack* createStack(int capacity)
 {
-    struct Node* node=(struct Node*)malloc(sizeof(struct Node));
-    node->data=value;
-    node->next=NULL;
-    return node;
+    struct Stack* stack=(struct Stack*)malloc(sizeof(struct Stack));
+    stack->capacity=capacity;
+    stack->top=-1;
+    stack->arr=(int*)malloc(stack->capacity*sizeof(int));
+    return stack;
 }
-void Push(struct Node** temp, int data)
+void Push(struct Stack* stack, int value)
 {
-    struct Node* node1=createNode(data);
-    node1->next=*temp;
-    *temp=node1;
-    printf("%d value is pushed in stack\n",data);
+    stack->arr[++stack->top]=value;
+    printf("%d value is pushed in stack\n",value);
 }
-void Print(struct Node* temp)
+void Print(struct Stack* stack)
 {
-    while(temp!=NULL)
+    int i=stack->capacity;
+    while(i>0)
     {
-        printf("%d ",temp->data);
-        temp=temp->next;
+        printf("%d ",stack->arr[i-1]);
+        i=i-1;
     }
 }
-int Sort(struct Node **node)
+int IsEmpty(struct Stack* stack)
 {
-    struct Node *temp=NULL;
-    temp=*node;
+    if(stack->top==-1)
+        return 1;
+    else
+        return 0;
+}
+int Pop(struct Stack* stack)
+{
+    if(IsEmpty(stack))
+        return -1;
+    return stack->arr[stack->top--];
+}
+
+int Sort(struct Stack* stack, int k, int com)
+{
     int min;
-    while(temp->next!=NULL)
-    {
-        min=Pop(temp);
-        if(min>Pop(temp))
-            min=Pop(temp);
-    }
-    int value;
-    if(temp->next==NULL)
-    {
-        value=temp->data;
-        return temp;
-    }
-    
-    
+    //printf("%d\n",stack->top);
+    if(k==com)
+        return Pop(stack);
+    min= Sort(stack,k-1,com);
+    printf("%d ",min);
+    int x=Pop(stack);
+    if(min>x)
+        return x;
+    else
+        return min;
 }
 int main() {
+    int value=5;
+    struct Stack* stack=createStack(value);
+    Push(stack,30);
+    Push(stack,-5);
+    Push(stack,18);
+    Push(stack,14);
+    Push(stack,-3);
+    printf("Before Sorting\n");
+    Print(stack);
+    printf("\n");
+    //printf("%d ",Pop(stack));
+    printf("After Sorting\n");
+    int j;
+    int z=value-1;
+    for(int a=0;a<z;a++)
+    {
+        j=Sort(stack,z,a);
+        printf("%d\n",j);
+        Push(stack,j);
+        stack->top=z;
+    }
+    //Print(stack);
 	// your code goes here
-	struct Node* node=(struct Node*)malloc(sizeof(struct Node));
-	node=NULL;
-	Push(&node,30);
-	Push(&node,-5);
-	Push(&node,18);
-	Push(&node,14);
-	Push(&node,-3);
-	printf("Before Sorting\n");
-	//Before Sorting
-	Print(node);
-	printf("\n");
-	int count=Count(&node);
-	Sort(&node);
 	return 0;
 }
