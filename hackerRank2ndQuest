@@ -1,0 +1,62 @@
+/*
+   Reverse a doubly linked list, input list may also be empty
+   Node is defined as
+   struct Node
+   {
+     int data;
+     Node *next;
+     Node *prev;
+   }
+*/
+Node* Reverse(Node* head)
+{
+    struct Node* temp=NULL;
+    struct Node* temp1=NULL;
+    struct Node* temp2=NULL;
+    if(head!=NULL)
+    {
+        int x=0;
+        temp=head;
+        while(temp!=NULL)
+        {
+            temp=temp->next;
+            x++;
+        }
+        //struct Node* temp=NULL;
+        temp=head;
+        //temp1=head->next;
+        int count=0;        
+        while(temp->next!=NULL)
+        { 
+            if(count<x)
+            {
+                if(count==0)
+                {
+                    temp1=temp->next;
+                    temp2=NULL;
+                    temp->next=temp2;
+                    temp->prev=temp1;
+                    count++;
+                //temp=temp1;
+                }
+                else
+                {               
+                    temp->prev=temp2;
+                    temp1=temp2;
+                    count++;               
+                }           
+                temp2=temp1->next;
+                temp1->next=temp;
+                temp=temp1; 
+            }
+            else
+                break;
+        }
+        temp->prev=NULL; 
+        return temp;
+    }
+    else
+        return head;
+    // Complete this function
+    // Do not write the main method. 
+}
